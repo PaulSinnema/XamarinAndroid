@@ -85,15 +85,22 @@ namespace ExpandableListDemo
 
         public override View GetGroupView(int groupPosition, bool isExpanded, View convertView, ViewGroup parent)
         {
+            HeaderItemHolder headerHolder;
             View header = convertView;
             ExpandableListView menuExpandableListView = (ExpandableListView)parent;
             if (header == null)
+            {
                 header = _context.LayoutInflater.Inflate(Resource.Layout.CustomMenuHeaderRow, null);
+                headerHolder = new HeaderItemHolder(header.FindViewById<ImageView>(Resource.Id.MenuHeader_ImageView), header.FindViewById<TextView>(Resource.Id.MenuHeader_TextView), header.FindViewById<ImageView>(Resource.Id.MenuHeaderIndicator_ImageView));
+                header.Tag = headerHolder;
+            }
+            else
+                headerHolder = (HeaderItemHolder)header.Tag;
+
+
             if (groupPosition < _menuictionary.Keys.Count)
             {
-                header.FindViewById<ImageView>(Resource.Id.MenuHeader_ImageView).SetImageResource(Resource.Drawable.Icon);
-                header.FindViewById<TextView>(Resource.Id.MenuHeader_TextView).Text = _menuictionary.ElementAt(groupPosition).Key.Name;
-                header.FindViewById<ImageView>(Resource.Id.MenuHeaderIndicator_ImageView).Touch += (s, e) =>
+                headerHolder.MenuHeaderIndicator_ImageView.Touch += (s, e) =>
                 {
 
                     switch (_menuictionary.ElementAt(groupPosition).Key.Expanded)
@@ -120,6 +127,22 @@ namespace ExpandableListDemo
         public override bool IsChildSelectable(int groupPosition, int childPosition)
         {
             return true;
+        }
+    }
+
+    public class HeaderItemHolder : Java.Lang.Object
+    {
+        public ImageView MenuHeader_ImageView;
+        public TextView MenuHeader_TextView;
+        public ImageView MenuHeaderIndicator_ImageView;
+
+
+        public HeaderItemHolder(ImageView menuHeader_ImageView, TextView menuHeader_TextView, ImageView menuHeaderIndicator_ImageView)
+        {
+            MenuHeader_ImageView = menuHeader_ImageView;
+            MenuHeader_ImageView.SetImageResource(Resource.Drawable.Icon);
+            MenuHeader_TextView = menuHeader_TextView;
+            MenuHeaderIndicator_ImageView = menuHeaderIndicator_ImageView;
         }
     }
 }
