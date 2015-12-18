@@ -64,12 +64,18 @@ namespace ExpandableListDemo
 
         public override View GetChildView(int groupPosition, int childPosition, bool isLastChild, View convertView, ViewGroup parent)
         {
+            HeaderSubItemHolder headerSubItemHolder;
             View row = convertView;
             if (row == null)
+            {
                 row = _context.LayoutInflater.Inflate(Resource.Layout.CustomMenuSubRow, null);
+                headerSubItemHolder = new HeaderSubItemHolder(row.FindViewById<ImageView>(Resource.Id.MenuSubItem_ImageView), row.FindViewById<TextView>(Resource.Id.MenuSubItem_TextView));
+                row.Tag = headerSubItemHolder;
+            }
+            else
+                headerSubItemHolder = (HeaderSubItemHolder)row.Tag;
 
-            row.FindViewById<ImageView>(Resource.Id.MenuSubItem_ImageView).SetImageResource(Resource.Drawable.Icon);
-            row.FindViewById<TextView>(Resource.Id.MenuSubItem_TextView).Text = _menuictionary[_menuictionary.ElementAt(groupPosition).Key][childPosition].Name;
+            headerSubItemHolder.SubMenuItem_TextView.Text = _menuictionary[_menuictionary.ElementAt(groupPosition).Key][childPosition].Name;
             return row;
         }
 
@@ -143,6 +149,20 @@ namespace ExpandableListDemo
             MenuHeader_ImageView.SetImageResource(Resource.Drawable.Icon);
             MenuHeader_TextView = menuHeader_TextView;
             MenuHeaderIndicator_ImageView = menuHeaderIndicator_ImageView;
+        }
+    }
+
+    public class HeaderSubItemHolder : Java.Lang.Object
+    {
+        public ImageView SubMenuItem_ImageView;
+        public TextView SubMenuItem_TextView;
+
+
+        public HeaderSubItemHolder(ImageView menuHeader_ImageView, TextView menuHeader_TextView)
+        {
+            SubMenuItem_ImageView = menuHeader_ImageView;
+            SubMenuItem_ImageView.SetImageResource(Resource.Drawable.Icon);
+            SubMenuItem_TextView = menuHeader_TextView;
         }
     }
 }
