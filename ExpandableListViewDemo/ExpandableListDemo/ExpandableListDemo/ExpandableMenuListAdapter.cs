@@ -114,12 +114,12 @@ namespace ExpandableListDemo
                         case true:
                             menuExpandableListView.CollapseGroup(groupPosition);
                             _menuictionary.ElementAt(groupPosition).Key.Expanded = false;
-                            header.FindViewById<ImageView>(Resource.Id.MenuHeaderIndicator_ImageView).SetImageResource(Resource.Drawable.ic_down);
+                            headerHolder.MenuHeaderIndicator_ImageView.SetImageResource(Resource.Drawable.ic_down);
                             break;
                         case false:
                             menuExpandableListView.ExpandGroup(groupPosition);
                             _menuictionary.ElementAt(groupPosition).Key.Expanded = true;
-                            header.FindViewById<ImageView>(Resource.Id.MenuHeaderIndicator_ImageView).SetImageResource(Resource.Drawable.ic_up);
+                            headerHolder.MenuHeaderIndicator_ImageView.SetImageResource(Resource.Drawable.ic_up);
                             break;
                         default:
                             break;
